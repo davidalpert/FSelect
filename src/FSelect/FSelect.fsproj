@@ -48,8 +48,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="FDebug.fs" />
-    <Compile Include="AST.fs" />
     <Compile Include="ErrorHandling.fs" />
+    <Compile Include="AST.fs" />
+    <Compile Include="ParseException.fs" />
     <Compile Include="$(IntermediateOutputPath)Parser.fs">
       <Visible>false</Visible>
       <Link>Parser.fs</Link>

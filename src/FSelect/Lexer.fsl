@@ -10,8 +10,10 @@
 module Lexer
 
 open System
-open Parser
 open Microsoft.FSharp.Text.Lexing
+
+open Parser
+open FSelect
 
 // 2. this is an alias for parsing the contents of the lexbuffer out as a string:
 //
@@ -54,7 +56,7 @@ let identifier  = letter (letter|digit|underscore)*
 // 4. These are the recognized tokens, exposed through Lexer.tokenize and passed into the Parser for use when parsing:
 //
 rule tokenize = parse
-| identifier        { IDENTIFIER( lexeme lexbuf ) }
+| identifier        { FDebug.writef "IDENTIFIER( %s )" (lexeme lexbuf); IDENTIFIER( lexeme lexbuf ) }
 | comma             { COMMA }
 | whitespace	    { tokenize lexbuf }
 | newline           { FDebug.writefn " NEWLINE"; lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf }

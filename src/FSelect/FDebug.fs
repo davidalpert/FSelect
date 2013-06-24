@@ -1,11 +1,15 @@
-﻿module FDebug 
+﻿namespace FSelect
 
-    open System.Diagnostics
+open System.Diagnostics
 
-    let write message = Debug.Write(message)
+type FDebug() =
 
-    let writen message = Debug.WriteLine(message)
+    static member val Trace = false with get, set
 
-    let writef fmt = Printf.ksprintf Debug.Write fmt
+    static member write message = Debug.Write(message)
 
-    let writefn fmt = Printf.ksprintf Debug.WriteLine fmt
+    static member writen message = Debug.WriteLine(message)
+
+    static member writef fmt = Printf.ksprintf Debug.Write fmt
+
+    static member writefn fmt = Printf.ksprintf Debug.WriteLine fmt

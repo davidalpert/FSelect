@@ -1,4 +1,5 @@
-﻿module AST
+﻿
+namespace FSelect.AST
 
 open System
 
@@ -7,10 +8,13 @@ open System
         //abstract member Identifier : string
     //end
 
-//type Selector = 
+type Selector(identifier:string) = 
     //interface ISelector
-    //member self.Identifier = string
+    member self.Identifier = identifier
 
-//type SelectorSequence = 
-    //inherit System.Collections.Generic.List<ISelector>
+type SelectorSequence(?selectors:Selector list) as self =
+    member self.Selectors = match selectors with
+                                | Some(selectors) -> new System.Collections.Generic.List<Selector>(selectors)
+                                | None -> new System.Collections.Generic.List<Selector>()
+    new(selector:Selector) = SelectorSequence( [ selector ] )
 

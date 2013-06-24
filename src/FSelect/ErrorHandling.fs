@@ -4,7 +4,7 @@ open System
 open System.Text
 open Microsoft.FSharp.Text.Lexing
 open Microsoft.FSharp.Text.Parsing
-open FDebug
+open FSelect
 
 let mutable ErrorContextDescriptor : string = "<NO ERROR>"
 //let mutable ErrorContext : ParseErrorContext<'a> option = 
