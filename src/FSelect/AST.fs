@@ -29,5 +29,4 @@ type SelectorSequence(?selectors:Selector list) as self =
     member self.Selectors = match selectors with
                                 | Some(selectors) -> new System.Collections.Generic.List<Selector>(selectors)
                                 | None -> new System.Collections.Generic.List<Selector>()
-    new(selector:Selector) = SelectorSequence( [ selector ] )
 

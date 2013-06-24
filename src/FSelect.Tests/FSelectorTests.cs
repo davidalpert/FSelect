@@ -22,6 +22,21 @@ namespace FSelect.Tests
         }
 
         [Test]
+        public void Parse_multiple_selectors_returns_a_SelectorSequence_of_multiple_Selectors()
+        {
+            var input = 
+@"StackPanel,
+DockPanel";
+
+            var result = FSelector.Parse(input);
+
+            Assert.IsInstanceOf<SelectorSequence>(result);
+            Assert.AreEqual(2, result.Selectors.Count);
+            Assert.AreEqual("StackPanel", result.Selectors.First().Identifier);
+            Assert.AreEqual("DockPanel", result.Selectors.Skip(1).First().Identifier);
+        }
+
+        [Test]
         public void Parse_star_returns_a_WildcardSelector()
         {
             var input = "*";

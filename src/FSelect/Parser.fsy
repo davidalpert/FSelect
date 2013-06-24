@@ -31,14 +31,14 @@ open FSelect.AST
 //    actions executed as rules are reduced.  In this case the actions 
 //    produce data using F# data construction terms.
 
-Parse: selectorSequence EOF { $1 }
+Parse: selectorSequence EOF { new SelectorSequence($1) }
 
 selectorSequence: 
-	| selector { new SelectorSequence( $1 ) }
-	| selector COMMA selectorSequence { $3.Selectors.Insert(0, $1); $3 }
+	| selector { [ $1 ] }
+	| selector COMMA selectorSequence { $1::$3 }
 
 selector:
-	| simpleSelector { $1 }
+	| simpleSelector { $1 :> Selector }
 
 simpleSelector:
 	| wildcardSelector { $1 :> SimpleSelector }
