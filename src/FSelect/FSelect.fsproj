@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E5D4AEA9-0C49-4CB3-B456-66D9D7D67014}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>FSelect</RootNamespace>
+    <AssemblyName>FSelect</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <Name>Language</Name>
+    <SolutionDir Condition="'$(SolutionDir)'== ''">$(MSBuildThisFileDirectory)..\</SolutionDir>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Debug\FSelect.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>bin\Release\FSelect.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)_BuildScripts\Local.FSharp.targets" />
+  <Import Project="$(SolutionDir)_BuildScripts\F#\3.0\Framework\v4.0\Microsoft.FSharp.targets" />
+  <Import Project="$(FSharpPowerPackDir)bin\FSharp.PowerPack.targets" />
+  <PropertyGroup>
+    <FsLexOutputFolder>$(IntermediateOutputPath)</FsLexOutputFolder>
+    <FsYaccOutputFolder>$(IntermediateOutputPath)</FsYaccOutputFolder>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="FDebug.fs" />
+    <Compile Include="AST.fs" />
+    <Compile Include="ErrorHandling.fs" />
+    <Compile Include="$(IntermediateOutputPath)Parser.fs">
+      <Visible>false</Visible>
+      <Link>Parser.fs</Link>
+    </Compile>
+    <Compile Include="$(IntermediateOutputPath)Lexer.fs">
+      <Visible>false</Visible>
+      <Link>Lexer.fs</Link>
+    </Compile>
+    <FsYacc Include="Parser.fsy">
+      <OtherFlags>--module Parser</OtherFlags>
+    </FsYacc>
+    <FsLex Include="Lexer.fsl">
+      <OtherFlags>--unicode</OtherFlags>
+    </FsLex>
+    <Compile Include="FSelector.fs" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FSharp.Core">
+      <HintPath>$(FSharpReferenceAssembliesDir)FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.PowerPack">
+      <HintPath>$(FSharpPowerPackDir)bin\FSharp.PowerPack.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <!-- Use this target to show the FsLex and FsYacc tool paths that are used during the pre-build step. -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      Tools;$(BuildDependsOn)
+    </BuildDependsOn>
+  </PropertyGroup>
+  <Target Name="Tools">
+    <Message Text="F# Ref: $(FSharpReferenceAssembliesDir)" />
+    <Error Condition="!Exists('$(FSharpReferenceAssembliesDir)FSharp.Core.dll')" Text="Could not find FSharp.Core.dll" />
+    <Message Text=" FsLex: $(FsLexToolPath)$(FsLexToolExe)" />
+    <Message Text="  --&gt; : $(FsLexOutputFolder)" />
+    <Message Text="FsYacc: $(FsYaccToolPath)$(FsYaccToolExe)" />
+    <Message Text="  --&gt; : $(FsYaccOutputFolder)" />
+  </Target>
+  <!-- Use this target to run FsLex on the Lexer.fsl file and see the output. -->
+  <Target Name="RunLex">
+    <PropertyGroup>
+      <LexerSource>$(SolutionDir)FSelect\Lexer.fsl</LexerSource>
+      <LexerOutput>$(FsLexOutputFolder)Lexer.fs</LexerOutput>
+      <Cmd>$(FsLexToolPath)$(FsLexToolExe)</Cmd>
+      <Cmd>"$(Cmd)" -o "$(LexerOutput)" "$(LexerSource)"</Cmd>
+    </PropertyGroup>
+    <Exec Command="$(Cmd)" />
+  </Target>
+  <!-- Use this target to run FsYacc on the Parser.fsy file and see the output. -->
+  <Target Name="RunYacc">
+    <PropertyGroup>
+      <ParserSource>$(SolutionDir)FSelect\Parser.fsy</ParserSource>
+      <ParserOutput>$(FsYaccOutputFolder)Parser.fs</ParserOutput>
+      <Cmd>$(FsYaccToolPath)$(FsYaccToolExe)</Cmd>
+      <Cmd>"$(Cmd)" --module Parser -o "$(ParserOutput)" "$(ParserSource)"</Cmd>
+    </PropertyGroup>
+    <Exec Command="$(Cmd)" />
+  </Target>
+</Project>

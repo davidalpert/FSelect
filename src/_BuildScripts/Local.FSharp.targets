@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)'== ''">$(MSBuildThisFileDirectory)..\</SolutionDir>
+    <BuildScriptsDir>$(SolutionDir)_BuildScripts\</BuildScriptsDir>
+    <MSBuildExtensionsPath>$(BuildScriptsDir)</MSBuildExtensionsPath>
+    <FSharpReferenceAssembliesDir>$(SolutionDir)Reference Assemblies\Microsoft\FSharp\3.0\Runtime\v4.0\</FSharpReferenceAssembliesDir>
+    <FSharpPowerPackDir>$(MSBuildThisFileDirectory)FSharpPowerPack-4.0.0.0\</FSharpPowerPackDir>
+    <FsLexToolPath>$(FSharpPowerPackDir)bin\</FsLexToolPath>
+    <FsLexToolExe>fslex.exe</FsLexToolExe>
+    <FsYaccToolPath>$(FSharpPowerPackDir)bin\</FsYaccToolPath>
+    <FsYaccToolExe>fsyacc.exe</FsYaccToolExe>
+    <FscToolPath>$(BuildScriptsDir)F#\3.0\Framework\v4.0\</FscToolPath>
+    <BuildDependsOn>CopyFSharpCoreForBuild;$(BuildDependsOn)</BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CopyFSharpCoreForBuild">
+    <!-- HACK: both the F# compiler (fsc.exe) and the FsLex/FsYacc build targets (from the PowerPack) cannot find 
+               FSharp.Core.dll unless it is installed on the build server.  This build target copies the F#.Core.dll
+               to the local folders where each of these are loaded from to ensure that it is in the fusion load path,
+               even if it is not in the GAC. -->
+    <ItemGroup>
+      <FoldersThatNeedFSharpCore Include="$(FSharpPowerPackDir)bin\"/>
+      <FoldersThatNeedFSharpCore Include="$(FscToolPath)"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="$(FSharpReferenceAssembliesDir)FSharp.Core.dll"
+          DestinationFolder="%(FoldersThatNeedFSharpCore.Identity)"
+          OverwriteReadOnlyFiles="true"
+          Retries="2"
+          />
+  </Target>
+
+</Project>

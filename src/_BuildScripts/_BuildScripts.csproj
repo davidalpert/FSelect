@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4AA10E6B-E139-43E5-BE8C-11B73050E88D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BuildScipts</RootNamespace>
+    <AssemblyName>BuildScipts</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\build.xml">
+      <Link>build.xml</Link>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="F#\3.0\Framework\v4.0\Fsc.exe" />
+    <Content Include="F#\3.0\Framework\v4.0\FSharp.Build.dll" />
+    <Content Include="F#\3.0\Framework\v4.0\FSharp.Compiler.dll" />
+    <Content Include="F#\3.0\Framework\v4.0\FSharp.Compiler.Interactive.Settings.dll" />
+    <Content Include="F#\3.0\Framework\v4.0\Fsi.exe" />
+    <Content Include="F#\3.0\Framework\v4.0\FsiAnyCPU.exe" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.Compiler.CodeDom.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.Compiler.CodeDom.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.Compiler.CodeDom.xml" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Build.Tasks.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Build.Tasks.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Build.Tasks.xml" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Compatibility.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Compatibility.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Compatibility.xml" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Linq.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Linq.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Linq.xml" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Metadata.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Metadata.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Metadata.xml" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Parallel.Seq.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Parallel.Seq.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.Parallel.Seq.xml" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.xml" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\fshtmldoc.exe" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\fslex.exe" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\fsyacc.exe" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\gac\FSharp.Compiler.CodeDom.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\gac\FSharp.PowerPack.Compatibility.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\gac\FSharp.PowerPack.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\gac\FSharp.PowerPack.Linq.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\gac\FSharp.PowerPack.Metadata.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\bin\gac\FSharp.PowerPack.Parallel.Seq.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\Silverlight\v5.0\FSharp.PowerPack.Compatibility.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\Silverlight\v5.0\FSharp.PowerPack.Compatibility.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\Silverlight\v5.0\FSharp.PowerPack.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\Silverlight\v5.0\FSharp.PowerPack.Linq.dll" />
+    <Content Include="FSharpPowerPack-4.0.0.0\Silverlight\v5.0\FSharp.PowerPack.Linq.pdb" />
+    <Content Include="FSharpPowerPack-4.0.0.0\Silverlight\v5.0\FSharp.PowerPack.pdb" />
+    <Content Include="MSBuild.Community.Tasks\MSBuild.Community.Tasks.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="F#\3.0\Framework\v4.0\Fsi.exe.config" />
+    <None Include="F#\3.0\Framework\v4.0\FsiAnyCPU.exe.config" />
+    <None Include="F#\3.0\Framework\v4.0\Microsoft.FSharp.targets" />
+    <None Include="F#\3.0\Framework\v4.0\Microsoft.Portable.FSharp.targets" />
+    <None Include="FSharpPowerPack-4.0.0.0\bin\FSharp.PowerPack.targets">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="FSharpPowerPack-4.0.0.0\License.rtf" />
+    <None Include="Local.FSharp.targets">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MSBuild.Community.Tasks\MSBuild.Community.Tasks.targets" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

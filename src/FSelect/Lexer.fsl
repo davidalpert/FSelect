@@ -1,0 +1,61 @@
+﻿{
+// 1. F# code (such as imports) goes here, inside the initial curly braces:
+//    (after the curly braces we are out of F# and back in Lex syntax)
+//
+
+/// <summary>
+/// The Lexer module uses Lex syntax to declaratively describe a 
+/// tokenizer capable of parsing tokens from an input stream.
+/// </summary>
+module Lexer
+
+open System
+open Parser
+open Microsoft.FSharp.Text.Lexing
+
+// 2. this is an alias for parsing the contents of the lexbuffer out as a string:
+//
+let lexeme lexbuf =
+    LexBuffer<char>.LexemeString lexbuf
+
+}
+
+// 3. These are some regular expression definitions, used to make the tokens more readible:
+//
+//let integer     = '-'?digit+   
+//let float       = '-'?digit+ '.' digit+   
+
+// whitespace:
+let space       = ' '
+let tab         = '\t'
+let whitespace	= (space|tab)
+let newline		= ('\n' | '\r' '\n')
+
+// punctuation:
+let pipe        = '|'
+let hypen       = '-'
+let period      = '.'
+let comma       = ','
+let forwardSlash= '/'
+let backSlash   = '\\'
+let underscore  = '_'
+let colon       = ':'
+let semicolon   = ';'
+
+// letters and numbers:
+let digit       = ['0'-'9']   
+let hexdigit    = (digit|['A'-'F'])
+let upper       = ['A'-'Z']
+let lower       = ['a'-'z']   
+let letter      = (upper|lower)
+
+let identifier  = letter (letter|digit|underscore)*
+
+// 4. These are the recognized tokens, exposed through Lexer.tokenize and passed into the Parser for use when parsing:
+//
+rule tokenize = parse
+| identifier        { IDENTIFIER( lexeme lexbuf ) }
+| comma             { COMMA }
+| whitespace	    { tokenize lexbuf }
+| newline           { FDebug.writefn " NEWLINE"; lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf }
+| eof               { FDebug.writefn " EOF"; EOF }

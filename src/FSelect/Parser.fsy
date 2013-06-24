@@ -1,0 +1,40 @@
+﻿%{
+// 1. F# (such as any required includes) go here, between the %{..%} curly braces:
+//
+open Microsoft.FSharp.Text.Lexing
+open FDebug
+open ErrorHandling
+
+%}
+
+// 2. The start declaration defines the top-level grammar rule that will become a parser function in the compiled code:
+//
+%start Parse
+
+// 3. This is the fully-qualified type of the data produced by a successful reduction of the top-level symbol:
+//
+%type < System.String > Parse
+
+// 4. These doken declarations define the terminal tokens of the grammar along 
+//    with the types of the data carried by each token (where relevant):
+//    
+//    Multiple non-typed tokens can be declared on a single line.
+//
+%token <System.String> IDENTIFIER
+%token COMMA EOF
+
+// below this %% we are into the Yacc-based definition of our grammar rules
+%%
+
+// 5. These are the rules of the grammar along with the F# code of the 
+//    actions executed as rules are reduced.  In this case the actions 
+//    produce data using F# data construction terms.
+
+Parse: selectorSequence EOF { $1 }
+
+selectorSequence: 
+	| selector { $1 }
+	| selector COMMA selectorSequence { $1 }
+
+selector :
+	| IDENTIFIER { $1 }
