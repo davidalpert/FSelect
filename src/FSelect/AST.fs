@@ -11,6 +11,7 @@ open System
 type Selector(identifier:string) = 
     //interface ISelector
     member self.Identifier = identifier
+    override self.ToString() = sprintf "IDENTIFIER( %s )" self.Identifier
 
 type SelectorSequence(?selectors:Selector list) as self =
     member self.Selectors = match selectors with

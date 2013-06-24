@@ -20,5 +20,25 @@ namespace FSelect.Tests
             Assert.IsInstanceOf<SelectorSequence>(result);
             Assert.AreEqual(1, result.Selectors.Count);
         }
+
+        [Test]
+        public void Selector_exposes_an_identifier()
+        {
+            var input = "StackPanel";
+
+            var result = FSelector.Parse(input).Selectors[0];
+
+            Assert.AreEqual("StackPanel", result.Identifier);
+        }
+
+        [Test]
+        public void Selector_ToString()
+        {
+            var input = "StackPanel";
+
+            var result = FSelector.Parse(input).Selectors[0];
+
+            Assert.AreEqual("IDENTIFIER( StackPanel )", result.ToString());
+        }
     }
 }
