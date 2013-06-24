@@ -6,10 +6,12 @@ open Microsoft.FSharp.Text.Lexing
 open Microsoft.FSharp.Text.Parsing
 open FSelect
 
-let mutable ErrorContextDescriptor : string = "<NO ERROR>"
-//let mutable ErrorContext : ParseErrorContext<'a> option = 
-//    match 'a with
-//    | _ None;
+let LEXING_ERROR_TEXT = "Lexing error"
+
+// we assume that a parse error is a lexing error until the parse_error_rich method is invoked.
+//
+let mutable ErrorContextDescriptor : string = LEXING_ERROR_TEXT
+let IsLexingError = match ErrorContextDescriptor with | LEXING_ERROR_TEXT -> true | _ -> false
 
 let parse_error_rich =
     let inline (|+) (buffer:StringBuilder) (text:string) =

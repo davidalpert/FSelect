@@ -22,23 +22,67 @@ namespace FSelect.Tests
         }
 
         [Test]
-        public void Selector_exposes_an_identifier()
+        public void Parse_star_returns_a_WildcardSelector()
+        {
+            var input = "*";
+
+            var result = FSelector.Parse(input).Selectors[0];
+
+            Assert.IsInstanceOf<WildcardSelector>(result);
+            Assert.AreEqual("*", result.Identifier);
+        }
+
+        [Test]
+        public void Parse_element_returns_an_ElementSelector()
         {
             var input = "StackPanel";
 
             var result = FSelector.Parse(input).Selectors[0];
 
+            Assert.IsInstanceOf<ElementSelector>(result);
             Assert.AreEqual("StackPanel", result.Identifier);
+        }
+
+        [Test]
+        public void Parse_class_returns_a_ClassSelector()
+        {
+            var input = ".needsOfTheMany";
+
+            var result = FSelector.Parse(input).Selectors[0];
+
+            Assert.IsInstanceOf<ClassSelector>(result);
+            Assert.AreEqual("needsOfTheMany", result.Identifier);
+        }
+
+        [Test]
+        public void Parse_id_returs_IdentitySelector()
+        {
+            var input = "#needsOfTheOne";
+
+            var result = FSelector.Parse(input).Selectors[0];
+
+            Assert.IsInstanceOf<IdentitySelector>(result);
+            Assert.AreEqual("needsOfTheOne", result.Identifier);
+        }
+    }
+
+    [TestFixture]
+    public class ElementSelectorTests
+    {
+        [Test]
+        public void ElementSelector_exposes_an_element_name()
+        {
+            var element = new ElementSelector("StackPanel");
+
+            Assert.AreEqual("StackPanel", element.ElementName);
         }
 
         [Test]
         public void Selector_ToString()
         {
-            var input = "StackPanel";
+            var result = new ElementSelector("StackPanel");
 
-            var result = FSelector.Parse(input).Selectors[0];
-
-            Assert.AreEqual("IDENTIFIER( StackPanel )", result.ToString());
+            Assert.AreEqual("ElementSelector( StackPanel )", result.ToString());
         }
     }
 }

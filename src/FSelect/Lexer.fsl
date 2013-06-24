@@ -19,7 +19,6 @@ open FSelect
 //
 let lexeme lexbuf =
     LexBuffer<char>.LexemeString lexbuf
-
 }
 
 // 3. These are some regular expression definitions, used to make the tokens more readible:
@@ -43,6 +42,8 @@ let backSlash   = '\\'
 let underscore  = '_'
 let colon       = ':'
 let semicolon   = ';'
+let asterisk    = '*'
+let hash        = '#'
 
 // letters and numbers:
 let digit       = ['0'-'9']   
@@ -56,8 +57,11 @@ let identifier  = letter (letter|digit|underscore)*
 // 4. These are the recognized tokens, exposed through Lexer.tokenize and passed into the Parser for use when parsing:
 //
 rule tokenize = parse
+| asterisk          { FDebug.writef "STAR"; STAR }
 | identifier        { FDebug.writef "IDENTIFIER( %s )" (lexeme lexbuf); IDENTIFIER( lexeme lexbuf ) }
-| comma             { COMMA }
+| period			{ FDebug.writef "DOT"; DOT }
+| hash				{ FDebug.writef "HASH"; HASH }
+| comma             { FDebug.writef "COMMA"; COMMA }
 | whitespace	    { tokenize lexbuf }
 | newline           { FDebug.writefn " NEWLINE"; lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf }
 | eof               { FDebug.writefn " EOF"; EOF }
