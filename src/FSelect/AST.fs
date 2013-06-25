@@ -46,17 +46,17 @@ type IdentitySelector(identifier:string) =
 
 // CompoundSelectors ---------------------------------------------
 
-type CompoundSelector(right:Selector, context:Selector) = 
+type CompoundSelector(context:Selector, infixOperator:string, rightPart:Selector) = 
     inherit Selector() 
-    member self.RightPart = right
-    override self.Identifier = right.Identifier
-    override self.Text = sprintf "%s %s" context.Text self.RightPart.Text
     override self.ContextSelector = context
+    member self.InfixOperator = infixOperator
+    member self.RightPart = rightPart
+    override self.Identifier = rightPart.Identifier
+    override self.Text = sprintf "%s%s%s" context.Text self.InfixOperator rightPart.Text
+    new(context:Selector, rightPart:Selector) = CompoundSelector(context, " ", rightPart)
 
-type ImmediateChildSelector(right:Selector, context:Selector) = 
-    inherit CompoundSelector(right, context) 
-    override self.Text = sprintf "%s > %s" context.Text self.RightPart.Text
+type ImmediateChildSelector(context:Selector, right:Selector) = 
+    inherit CompoundSelector(context, " > ", right) 
 
-type AdjacentSiblingSelector(right:Selector, context:Selector) = 
-    inherit CompoundSelector(right, context) 
-    override self.Text = sprintf "%s + %s" context.Text self.RightPart.Text
+type AdjacentSiblingSelector(context:Selector, right:Selector) = 
+    inherit CompoundSelector(context, " + ", right) 

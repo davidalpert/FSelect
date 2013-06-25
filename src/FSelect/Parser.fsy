@@ -39,9 +39,9 @@ selectorSequence:
 
 selector:
 	| simpleSelector               { $1                                  :> Selector }
-	| selector selector            { new CompoundSelector($2, $1)        :> Selector }
-	| selector RIGHTANGLE selector { new ImmediateChildSelector($3, $1)  :> Selector }
-	| selector PLUS selector       { new AdjacentSiblingSelector($3, $1) :> Selector }
+	| selector selector            { new CompoundSelector($1, $2)        :> Selector }
+	| selector RIGHTANGLE selector { new ImmediateChildSelector($1, $3)  :> Selector }
+	| selector PLUS selector       { new AdjacentSiblingSelector($1, $3) :> Selector }
 
 simpleSelector:
 	| wildcardSelector { $1 :> SimpleSelector }
