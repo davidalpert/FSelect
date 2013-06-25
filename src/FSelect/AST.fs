@@ -44,12 +44,19 @@ type IdentitySelector(identifier:string) =
     override self.Text = sprintf "#%s" identifier
     member self.Key with get() = self.Identifier
 
-// SimpleSelectors ---------------------------------------------
+// CompoundSelectors ---------------------------------------------
 
-type CompoundSelector(identifier:string, context:Selector) = 
+type CompoundSelector(right:Selector, context:Selector) = 
     inherit Selector() 
-    override self.Identifier = identifier
-    override self.Text = sprintf "%s %s" context.Text identifier
+    member self.RightPart = right
+    override self.Identifier = right.Identifier
+    override self.Text = sprintf "%s %s" context.Text self.RightPart.Text
     override self.ContextSelector = context
 
+type ImmediateChildSelector(right:Selector, context:Selector) = 
+    inherit CompoundSelector(right, context) 
+    override self.Text = sprintf "%s > %s" context.Text self.RightPart.Text
 
+type AdjacentSiblingSelector(right:Selector, context:Selector) = 
+    inherit CompoundSelector(right, context) 
+    override self.Text = sprintf "%s + %s" context.Text self.RightPart.Text

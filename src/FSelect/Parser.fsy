@@ -22,7 +22,7 @@ open FSelect.AST
 //    Multiple non-typed tokens can be declared on a single line.
 //
 %token <System.String> IDENTIFIER
-%token COMMA DOT HASH STAR EOF
+%token COMMA DOT HASH PLUS RIGHTANGLE STAR EOF
 
 // below this %% we are into the Yacc-based definition of our grammar rules
 %%
@@ -38,8 +38,10 @@ selectorSequence:
 	| selector COMMA selectorSequence { $1::$3 }
 
 selector:
-	| simpleSelector { $1 :> Selector }
-	| selector simpleSelector { new CompoundSelector($2.Identifier, $1) :> Selector }
+	| simpleSelector               { $1                                  :> Selector }
+	| selector selector            { new CompoundSelector($2, $1)        :> Selector }
+	| selector RIGHTANGLE selector { new ImmediateChildSelector($3, $1)  :> Selector }
+	| selector PLUS selector       { new AdjacentSiblingSelector($3, $1) :> Selector }
 
 simpleSelector:
 	| wildcardSelector { $1 :> SimpleSelector }

@@ -126,5 +126,37 @@ DockPanel";
 
             Assert.AreEqual(".manyOfThese", result.ContextSelector.Text);
         }
+
+        [Test]
+        public void Parse_child_selector_returns_ChildSelector()
+        {
+            var input = "StackPanel > Grid";
+
+            var result = FSelector.Parse(input).Selectors.ElementAt(0);
+            
+            Assert.IsInstanceOf<ImmediateChildSelector>(result);
+            Assert.AreEqual("Grid", result.Identifier);
+            Assert.IsNotNull(result.ContextSelector);
+
+            Assert.IsInstanceOf<ElementSelector>(result.ContextSelector);
+            Assert.AreEqual("StackPanel", result.ContextSelector.Identifier);
+        }
+
+        [Test]
+        public void Parse_sibling_selector_returns_AdjacentSiblingSelector()
+        {
+            var input = "StackPanel + Grid";
+
+            var result = FSelector.Parse(input).Selectors.ElementAt(0);
+            
+            Assert.AreEqual(input, result.Text);
+
+            Assert.IsInstanceOf<AdjacentSiblingSelector>(result);
+            Assert.AreEqual("Grid", result.Identifier);
+            Assert.IsNotNull(result.ContextSelector);
+
+            Assert.IsInstanceOf<ElementSelector>(result.ContextSelector);
+            Assert.AreEqual("StackPanel", result.ContextSelector.Identifier);
+        }
     }
 }
