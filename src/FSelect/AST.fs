@@ -33,12 +33,12 @@ type ElementSelector(identifier:string) =
     member self.ElementName with get() = self.Identifier
 
 type ClassSelector(identifier:string) =
-    inherit SimpleSelector(identifier)
-    member self.ClassName with get() = self.Identifier
+    inherit WildcardSelector()
+    member self.ClassName with get() = identifier
 
 type IdentitySelector(identifier:string) =
-    inherit SimpleSelector(identifier)
-    member self.Key with get() = self.Identifier
+    inherit WildcardSelector()
+    member self.Key with get() = identifier
 
 // SimpleSelectors ---------------------------------------------
 

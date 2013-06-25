@@ -67,7 +67,7 @@ DockPanel";
             var result = FSelector.Parse(input).Selectors[0];
 
             Assert.IsInstanceOf<ClassSelector>(result);
-            Assert.AreEqual("needsOfTheMany", result.Identifier);
+            Assert.AreEqual("needsOfTheMany", ((ClassSelector)result).ClassName);
             Assert.IsNull(result.ContextSelector);
         }
 
@@ -79,7 +79,7 @@ DockPanel";
             var result = FSelector.Parse(input).Selectors[0];
 
             Assert.IsInstanceOf<IdentitySelector>(result);
-            Assert.AreEqual("needsOfTheOne", result.Identifier);
+            Assert.AreEqual("needsOfTheOne", ((IdentitySelector)result).Key);
             Assert.IsNull(result.ContextSelector);
         }
 
@@ -111,6 +111,32 @@ DockPanel";
 
             Assert.IsInstanceOf<ClassSelector>(result.ContextSelector);
             Assert.AreEqual("manyOfThese", ((ClassSelector) result.ContextSelector).ClassName);
+        }
+    }
+
+    [TestFixture]
+    public class ClassSelectorTests
+    {
+        [Test]
+        public void ClassSelector_is_a_wildcard_selector_with_a_class_filter()
+        {
+            var classSelector = new ClassSelector("awesomeHotSauce");
+
+            Assert.IsInstanceOf<WildcardSelector>(classSelector);
+            Assert.AreEqual("*", classSelector.Identifier);
+            Assert.AreEqual("awesomeHotSauce", classSelector.ClassName);
+            Assert.IsNull(classSelector.ContextSelector);
+        }
+
+        [Test]
+        public void IdentitySelector_is_a_wildcard_selector_with_a_name_filter()
+        {
+            var identitySelector = new IdentitySelector("uniqueSauce");
+
+            Assert.IsInstanceOf<WildcardSelector>(identitySelector);
+            Assert.AreEqual("*", identitySelector.Identifier);
+            Assert.AreEqual("uniqueSauce", identitySelector.Key);
+            Assert.IsNull(identitySelector.ContextSelector);
         }
     }
 }
