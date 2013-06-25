@@ -112,31 +112,19 @@ DockPanel";
             Assert.IsInstanceOf<ClassSelector>(result.ContextSelector);
             Assert.AreEqual("manyOfThese", ((ClassSelector) result.ContextSelector).ClassName);
         }
-    }
-
-    [TestFixture]
-    public class ClassSelectorTests
-    {
-        [Test]
-        public void ClassSelector_is_a_wildcard_selector_with_a_class_filter()
-        {
-            var classSelector = new ClassSelector("awesomeHotSauce");
-
-            Assert.IsInstanceOf<WildcardSelector>(classSelector);
-            Assert.AreEqual("*", classSelector.Identifier);
-            Assert.AreEqual("awesomeHotSauce", classSelector.ClassName);
-            Assert.IsNull(classSelector.ContextSelector);
-        }
 
         [Test]
-        public void IdentitySelector_is_a_wildcard_selector_with_a_name_filter()
+        public void Parse_of_descendent_selector_can_reconstruct_the_input()
         {
-            var identitySelector = new IdentitySelector("uniqueSauce");
+            var input = ".manyOfThese Grid";
 
-            Assert.IsInstanceOf<WildcardSelector>(identitySelector);
-            Assert.AreEqual("*", identitySelector.Identifier);
-            Assert.AreEqual("uniqueSauce", identitySelector.Key);
-            Assert.IsNull(identitySelector.ContextSelector);
+            var result = FSelector.Parse(input).Selectors.ElementAt(0);
+            
+            Assert.IsInstanceOf<CompoundSelector>(result);
+            Assert.AreEqual(".manyOfThese Grid", result.Text);
+            Assert.IsNotNull(result.ContextSelector);
+
+            Assert.AreEqual(".manyOfThese", result.ContextSelector.Text);
         }
     }
 }

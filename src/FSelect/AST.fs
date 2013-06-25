@@ -10,6 +10,7 @@ open System
 type Selector() as self = 
     abstract member Identifier:string
     abstract member ContextSelector:Selector
+    abstract member Text:string
     override self.ToString() = sprintf "%s( %s )" (self.GetType().Name) self.Identifier
 
 type SelectorSequence(?selectors:Selector list) as self =
@@ -23,6 +24,7 @@ type SelectorSequence(?selectors:Selector list) as self =
 type SimpleSelector(identifier:string) =
     inherit Selector() 
     override self.Identifier = identifier
+    override self.Text = identifier
     override self.ContextSelector = null
 
 type WildcardSelector() =
@@ -34,17 +36,20 @@ type ElementSelector(identifier:string) =
 
 type ClassSelector(identifier:string) =
     inherit WildcardSelector()
+    override self.Text = sprintf ".%s" identifier
     member self.ClassName with get() = identifier
 
 type IdentitySelector(identifier:string) =
-    inherit WildcardSelector()
-    member self.Key with get() = identifier
+    inherit SimpleSelector(identifier)
+    override self.Text = sprintf "#%s" identifier
+    member self.Key with get() = self.Identifier
 
 // SimpleSelectors ---------------------------------------------
 
 type CompoundSelector(identifier:string, context:Selector) = 
     inherit Selector() 
     override self.Identifier = identifier
+    override self.Text = sprintf "%s %s" context.Text identifier
     override self.ContextSelector = context
 
 

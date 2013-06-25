@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassSelectorTests.cs" />
     <Compile Include="ElementSelectorTests.cs" />
     <Compile Include="FSelectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
