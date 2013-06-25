@@ -11,6 +11,7 @@ type Selector() as self =
     abstract member Identifier:string
     abstract member ContextSelector:Selector
     abstract member Text:string
+    abstract member CalculateDepth: unit -> int
     override self.ToString() = sprintf "%s( %s )" (self.GetType().Name) self.Identifier
 
 type SelectorSequence(?selectors:Selector list) as self =
@@ -26,6 +27,7 @@ type SimpleSelector(identifier:string) =
     override self.Identifier = identifier
     override self.Text = identifier
     override self.ContextSelector = null
+    override self.CalculateDepth() = 1
 
 type WildcardSelector() =
     inherit SimpleSelector("*")
@@ -53,6 +55,7 @@ type CompoundSelector(context:Selector, infixOperator:string, rightPart:Selector
     member self.RightPart = rightPart
     override self.Identifier = rightPart.Identifier
     override self.Text = sprintf "%s%s%s" context.Text self.InfixOperator rightPart.Text
+    override self.CalculateDepth() = context.CalculateDepth() + 1
     new(context:Selector, rightPart:Selector) = CompoundSelector(context, " ", rightPart)
 
 type ImmediateChildSelector(context:Selector, right:Selector) = 

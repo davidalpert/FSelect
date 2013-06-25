@@ -59,13 +59,13 @@ let identifier  = letter (letter|digit|underscore)*
 // 4. These are the recognized tokens, exposed through Lexer.tokenize and passed into the Parser for use when parsing:
 //
 rule tokenize = parse
-| asterisk          { FDebug.writef " *"; STAR }
-| identifier        { FDebug.writef " IDENTIFIER( %s )" (lexeme lexbuf); IDENTIFIER( lexeme lexbuf ) }
+| asterisk          { FDebug.writef " * "; STAR }
+| identifier        { FDebug.writef "IDENTIFIER( %s )" (lexeme lexbuf); IDENTIFIER( lexeme lexbuf ) }
 | period			{ FDebug.writef " ."; DOT }
 | hash				{ FDebug.writef " #"; HASH }
 | comma             { FDebug.writef " ,"; COMMA }
-| plus              { FDebug.writef " +"; PLUS }
-| rightAngle        { FDebug.writef " >"; RIGHTANGLE }
+| plus              { FDebug.writef " + "; PLUS }
+| rightAngle        { FDebug.writef " > "; RIGHTANGLE }
 | whitespace	    { tokenize lexbuf }
 | newline           { FDebug.writefn " NEWLINE"; lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf }
 | eof               { FDebug.writefn " EOF"; EOF }

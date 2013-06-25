@@ -158,5 +158,16 @@ DockPanel";
             Assert.IsInstanceOf<ElementSelector>(result.ContextSelector);
             Assert.AreEqual("StackPanel", result.ContextSelector.Identifier);
         }
+
+        [Test]
+        public void Parse_tracks_compound_selector_depth()
+        {
+            var input = "StackPanel #navGrid .snazzy Border Button";
+
+            var result = FSelector.Parse(input).Selectors.ElementAt(0);
+            
+            Assert.AreEqual(input, result.Text);
+            Assert.AreEqual(5, result.CalculateDepth());
+        }
     }
 }
