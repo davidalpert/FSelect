@@ -35,7 +35,7 @@ type FSelector =
             //raise (new ParseException(lexbuff.StartPos.Column.ToString(), endPos.Line, endPos.Column, ex))
             //    use this line instead to show more detail about the error:
             match ErrorHandling.IsLexingError with 
-                    | true -> raise (new LexingException(endPos.Line, endPos.Column, ex.Message, ex))
+                    | true -> raise (new LexingException(endPos.Line, endPos.Column, (lexeme lexbuff), ex))
                     | false -> (
                                     let innerEx = new System.Exception(ErrorHandling.ErrorContextDescriptor, ex)
                                     raise (new ParseException(endPos.Line, endPos.Column, ex.Message, innerEx))
