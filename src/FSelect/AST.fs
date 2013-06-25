@@ -3,12 +3,27 @@ namespace FSelect.AST
 
 open System
 
-type Selector(identifier:string) = 
-    member self.Identifier = identifier
+// base classes
+
+[<AbstractClass>]
+[<AllowNullLiteral>]
+type Selector() as self = 
+    abstract member Identifier:string
+    abstract member ContextSelector:Selector
     override self.ToString() = sprintf "%s( %s )" (self.GetType().Name) self.Identifier
 
+type SelectorSequence(?selectors:Selector list) as self =
+    member self.Selectors = match selectors with
+                                | Some(selectors) -> new System.Collections.Generic.List<Selector>(selectors)
+                                | None -> new System.Collections.Generic.List<Selector>()
+
+// SimpleSelectors ---------------------------------------------
+
+[<AllowNullLiteral>]
 type SimpleSelector(identifier:string) =
-    inherit Selector(identifier)
+    inherit Selector() 
+    override self.Identifier = identifier
+    override self.ContextSelector = null
 
 type WildcardSelector() =
     inherit SimpleSelector("*")
@@ -25,8 +40,11 @@ type IdentitySelector(identifier:string) =
     inherit SimpleSelector(identifier)
     member self.Key with get() = self.Identifier
 
-type SelectorSequence(?selectors:Selector list) as self =
-    member self.Selectors = match selectors with
-                                | Some(selectors) -> new System.Collections.Generic.List<Selector>(selectors)
-                                | None -> new System.Collections.Generic.List<Selector>()
+// SimpleSelectors ---------------------------------------------
+
+type CompoundSelector(identifier:string, context:Selector) = 
+    inherit Selector() 
+    override self.Identifier = identifier
+    override self.ContextSelector = context
+
 

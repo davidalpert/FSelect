@@ -39,6 +39,7 @@ selectorSequence:
 
 selector:
 	| simpleSelector { $1 :> Selector }
+	| selector simpleSelector { new CompoundSelector($2.Identifier, $1) :> Selector }
 
 simpleSelector:
 	| wildcardSelector { $1 :> SimpleSelector }

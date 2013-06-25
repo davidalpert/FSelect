@@ -56,6 +56,7 @@ DockPanel";
 
             Assert.IsInstanceOf<ElementSelector>(result);
             Assert.AreEqual("StackPanel", result.Identifier);
+            Assert.IsNull(result.ContextSelector);
         }
 
         [Test]
@@ -67,6 +68,7 @@ DockPanel";
 
             Assert.IsInstanceOf<ClassSelector>(result);
             Assert.AreEqual("needsOfTheMany", result.Identifier);
+            Assert.IsNull(result.ContextSelector);
         }
 
         [Test]
@@ -78,26 +80,37 @@ DockPanel";
 
             Assert.IsInstanceOf<IdentitySelector>(result);
             Assert.AreEqual("needsOfTheOne", result.Identifier);
-        }
-    }
-
-    [TestFixture]
-    public class ElementSelectorTests
-    {
-        [Test]
-        public void ElementSelector_exposes_an_element_name()
-        {
-            var element = new ElementSelector("StackPanel");
-
-            Assert.AreEqual("StackPanel", element.ElementName);
+            Assert.IsNull(result.ContextSelector);
         }
 
         [Test]
-        public void Selector_ToString()
+        public void Parse_can_handle_descendent_selector()
         {
-            var result = new ElementSelector("StackPanel");
+            var input = "StackPanel Grid";
 
-            Assert.AreEqual("ElementSelector( StackPanel )", result.ToString());
+            var result = FSelector.Parse(input).Selectors.ElementAt(0);
+            
+            Assert.IsInstanceOf<CompoundSelector>(result);
+            Assert.AreEqual("Grid", result.Identifier);
+            Assert.IsNotNull(result.ContextSelector);
+
+            Assert.IsInstanceOf<ElementSelector>(result.ContextSelector);
+            Assert.AreEqual("StackPanel", result.ContextSelector.Identifier);
+        }
+
+        [Test]
+        public void Parse_can_handle_descendent_selector_with_class_context()
+        {
+            var input = ".manyOfThese Grid";
+
+            var result = FSelector.Parse(input).Selectors.ElementAt(0);
+            
+            Assert.IsInstanceOf<CompoundSelector>(result);
+            Assert.AreEqual("Grid", result.Identifier);
+            Assert.IsNotNull(result.ContextSelector);
+
+            Assert.IsInstanceOf<ClassSelector>(result.ContextSelector);
+            Assert.AreEqual("manyOfThese", ((ClassSelector) result.ContextSelector).ClassName);
         }
     }
 }
